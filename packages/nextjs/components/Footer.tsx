@@ -51,6 +51,7 @@ export const Footer = () => {
                 Fork me
               </a>
             </div>
+
             <span>·</span>
             <div className="flex justify-center items-center gap-2">
               <p className="m-0 text-center">
@@ -68,12 +69,26 @@ export const Footer = () => {
             </div>
             <span>·</span>
             <div className="text-center">
-              <a href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA" target="_blank" rel="noreferrer" className="link">
+              Project Partners :
+              <a href="https://particle.network" target="_blank" rel="noreferrer" className="link">
+                Particle Network
+              </a>
+            </div>
+            <span>·</span>
+            <div className="text-center">
+              <a href="https://t.me/holyaustin" target="_blank" rel="noreferrer" className="link">
                 Support
               </a>
             </div>
           </div>
-        </ul>
+        </ul>{" "}
+        <span>·</span>
+        <div className="text-center">
+          Project Partners :
+          <a href="https://particle.network" target="_blank" rel="noreferrer" className="link">
+            Particle Network
+          </a>
+        </div>
       </div>
     </div>
   );

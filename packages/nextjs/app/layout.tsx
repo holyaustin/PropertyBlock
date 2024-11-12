@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+//import { Inter } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
@@ -7,7 +7,7 @@ import { ParticleConnectkit } from "~~/components/connectkit";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
-const inter = Inter({ subsets: ["latin"] });
+//const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = getMetadata({
   title: "PropertyBlock :: Decentralized Real Estate dApp",
@@ -17,7 +17,7 @@ export const metadata = getMetadata({
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
-      <body className={inter.className}>
+      <body>
         <ThemeProvider enableSystem>
           <ParticleConnectkit>
             <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>

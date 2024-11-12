@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="px-5">
           <h1 className="text-center">
-            <span className="block text-5xl font-bold">PropertyBlocks</span>
+            <span className="block text-5xl font-bold">PropertyBlock</span>
             <span className="block text-yellow-500 font-semibold text-2xl mb-2">
               ReFi Fractionalized Real Estate Investment on Blockchain
             </span>
