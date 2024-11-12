@@ -1,8 +1,8 @@
 # 🏗 PropertyBlocks : A Real World Asset (RWA) Project on BlockChain for fractionalized Real Estate Investment and lending
 
 <h4 align="center">Real Estate Investment and lending
-  <a href="https://youtu.be/NNKcoUi3734">YouTube Code Walkthrough</a> |
-  <a href="https://propertyblocks.vercel.app/">Website</a>
+  <a href="https://youtu.be/_Rm_c-naOo4">YouTube Code Walkthrough</a> |
+  <a href="https://property-block.vercel.app/">Website</a>
 </h4>
 
 ## Inspiration
@@ -47,7 +47,9 @@ If i have more time. i will continue to work on the project.
 2. Allow property owners to use their property as collateral to lend from the pool.
 3. Fractionalized renting too.
 
-Deployment on Arbitrium
+## Demo URLs
+1. https://youtu.be/_Rm_c-naOo4
+2. https://property-block.vercel.app/
 
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.

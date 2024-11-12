@@ -30,16 +30,15 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/explore",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
-
   {
-    label: "Re-sell",
-    href: "/sell",
+    label: "Send-Token",
+    href: "/buy",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
   /**
-  {
-    label: "Buy",
-    href: "/buy",
+     {
+    label: "Re-sell",
+    href: "/sell",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
   {
