@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -19,7 +21,7 @@ export default function Explore() {
   const [loadingState, setLoadingState] = useState("not-loaded");
   useEffect(() => {
     loadfileNFT();
-  }, []);
+  }, [loadfileNFT]);
 
   async function loadfileNFT() {
     const web3Modal = new Web3Modal({
@@ -121,6 +123,7 @@ export default function Explore() {
                   />  */}
                 <img
                   title="fileNFT"
+                  alt="image"
                   frameBorder="0"
                   scrolling="no"
                   height="200px"

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -229,6 +230,7 @@ export default function ViewDetails() {
                 <div key={i} className="shadow rounded-xl overflow-hidden">
                   <img
                     title="Car Pics"
+                    alt="image"
                     frameBorder="0"
                     scrolling="no"
                     height="450px"

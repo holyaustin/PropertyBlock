@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton, useAccount } from "@particle-network/connectkit";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+//import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
@@ -30,14 +30,16 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/explore",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
+
+  {
+    label: "Re-sell",
+    href: "/sell",
+    icon: <BugAntIcon className="h-4 w-4" />,
+  },
+  /**
   {
     label: "Buy",
     href: "/buy",
-    icon: <BugAntIcon className="h-4 w-4" />,
-  },
-  {
-    label: "Sell",
-    href: "/sell",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
   {
@@ -45,6 +47,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/rent",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
+   */
 ];
 
 export const HeaderMenuLinks = () => {
@@ -77,7 +80,7 @@ export const HeaderMenuLinks = () => {
  * Site header
  */
 export const Header = () => {
-  const { address, isConnected, chainId } = useAccount();
+  const { isConnected } = useAccount();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
   useOutsideClick(
@@ -111,15 +114,15 @@ export const Header = () => {
           )}
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="flex relative w-10 h-10">
+          <div className="ml-10 flex relative w-10 h-10">
             <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold leading-tight text-2xl">PropertyBlocks</span>
-            <span className="text-lg text-yellow-500 ">Buy, Sell and Rent Real Estate on-Chain</span>
+          <div className="flex flex-col ml-6">
+            <span className="font-bold leading-tight text-2xl">PropertyBlock</span>
+            <span className="text-lg text-yellow-500 ">Buy, Sell and Rent on-chain</span>
           </div>
         </Link>
-        <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
+        <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2 ml-10">
           <HeaderMenuLinks />
         </ul>
       </div>

@@ -1,17 +1,16 @@
+import { Inter } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
+// Import the ConnectKitProvider configuration (exported as ParticleConnectKit)
+import { ParticleConnectkit } from "~~/components/connectkit";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
-import { Inter } from 'next/font/google';
 
-// Import the ConnectKitProvider configuration (exported as ParticleConnectKit)
-import { ParticleConnectkit } from '~~/components/connectkit';
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = getMetadata({
-  title: "Scaffold-ETH 2 App",
+  title: "PropertyBlock :: Decentralized Real Estate dApp",
   description: "Property Block Built with 🏗 Scaffold-ETH 2 and Particle Connect 2.0",
 });
 
