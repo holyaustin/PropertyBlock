@@ -166,3 +166,8 @@ https://sepolia.lineascan.build/address/0x3672F4eb94d6f674D11b9D24321eaD0Bb0B490
 0xD547726541FB37dB19fDB263f4855bA969034071
 
 0x3672F4eb94d6f674D11b9D24321eaD0Bb0B490Ab
+
+## Property on Pinata
+https://ipfs.io/ipfs/QmWQekojv9UQBpMKcuTNEvLPjR8dyp7K8hSKTRE7YZmZtf
+
+https://ipfs.io/ipfs/QmWQekojv9UQBpMKcuTNEvLPjR8dyp7K8hSKTRE7YZmZtf

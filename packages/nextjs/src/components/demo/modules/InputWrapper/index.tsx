@@ -6,7 +6,7 @@ import Tag from '../Tag';
 import styles from './index.module.css';
 
 type InputWrapperProps = {
-  label?: String;
+  label?: string;
   children?: React.ReactNode;
 };
 
@@ -22,7 +22,7 @@ function InputWrapper(props: InputWrapperProps) {
 type InputProps = {
   value: string | undefined;
   setValue: (data: string) => void;
-  label: String;
+  label: string;
   children?: React.ReactNode;
   placeholder?: string;
   type?: string;

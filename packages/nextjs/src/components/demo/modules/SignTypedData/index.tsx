@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAccount, useSwitchChain, useWallets } from '@particle-network/connectkit';
 import { useState } from 'react';
 import Button from '../Button';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAccount, usePublicClient, useWallets } from '@particle-network/connectkit';
 import { useEffect, useMemo, useState } from 'react';
 import type { Abi, Address } from 'viem';
