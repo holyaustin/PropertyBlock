@@ -22,10 +22,10 @@ const Register = () => {
   const navigate = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
   const [imageView, setImageView] = useState();
-  const [metaDataURL, setMetaDataURl] = useState();
+  const [metaDataURL, setMetaDataURL] = useState();
   const [txURL, setTxURL] = useState();
   const [txStatus, setTxStatus] = useState();
-  const [formInput, updateFormInput] = useState({ name: "" });
+  const [formInput, updateFormInput] = useState({ name: "", price: "", totalfraction: "" });
 
   if (allowedNetworks.filter(allowedNetwork => allowedNetwork.id) !== 59141) {
     // const liskAddress = liskAddress;
@@ -34,9 +34,13 @@ const Register = () => {
   }
 
   async function createItem() {
-    const { name } = formInput;
-    if (!name) return;
-
+   // const { name } = formInput;
+    const { name, totalfraction, price } = formInput;
+    if (!name || !totalfraction || !price) return;
+    console.log("Name is ", name);
+    console.log("fraction is ", totalfraction);
+    console.log("price is ", price);
+    //setMetaDataURL(name);
     try {
       //const added = await client.add(data)
 
@@ -52,6 +56,7 @@ const Register = () => {
   }
 
   const sendTxToBlockchain = async metaDataURL => {
+    const { name, totalfraction, price } = formInput;
     try {
       setTxStatus("Adding transaction to Blockchain");
 
@@ -62,8 +67,14 @@ const Register = () => {
       const connectedContract = new ethers.Contract(liskAddress, RealEstateFractionalize.abi, provider.getSigner());
       console.log("Connected to contract", liskAddress);
       console.log("IPFS blockchain uri is ", metaDataURL);
+      console.log("connectedContract is ", connectedContract);
 
-      const Tx = await connectedContract.createFile(metaDataURL);
+      let listingPrice = await connectedContract.getListingPrice();
+      listingPrice = listingPrice.toString();
+      //const price2 = ethers.utils.parseUnits(price.toString(), "ether");
+      const price2 = parseInt(price);
+      const fraction = parseInt(totalfraction);
+      const Tx = await connectedContract.registerProperty(price2, fraction, metaDataURL, { value: listingPrice });
       console.log("File successfully created and added to Blockchain");
       await Tx.wait();
 
@@ -109,10 +120,22 @@ const Register = () => {
       <div className="flex justify-center bg-blue-100">
         <div className="w-1/2 flex flex-col pb-12 ">
           <input
-            placeholder="Enter the json URL for the  property"
+            placeholder="Enter the json URL for the property with images"
             className="mt-5 border rounded p-4 text-xl"
             onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
           />
+
+          <input
+            placeholder="Property Amount in USDT e.g. $25,000"
+            className="mt-5 border rounded p-4 text-xl"
+            onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+          />
+          <input
+            placeholder="Number of fractions to divide property e.g. 1,000, 20,000 etc. "
+            className="mt-5 border rounded p-4 text-xl"
+            onChange={e => updateFormInput({ ...formInput, totalfraction: e.target.value })}
+          />
+
           <br />
 
           <div className=" text-black text-xl">
@@ -155,7 +178,7 @@ const Register = () => {
             onClick={createItem}
             className="font-bold mt-20 bg-yellow-500 text-white text-2xl rounded p-4 shadow-lg"
           >
-            Publish Property
+            Register Property
           </button>
         </div>
       </div>

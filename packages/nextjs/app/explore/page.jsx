@@ -21,7 +21,9 @@ export default function Explore() {
   const [loadingState, setLoadingState] = useState("not-loaded");
   useEffect(() => {
     loadfileNFT();
-  }, [loadfileNFT]);
+  }, []);
+
+  //const rpcUrl = "https://sepolia.optimism.io";
 
   async function loadfileNFT() {
     const web3Modal = new Web3Modal({
@@ -48,23 +50,22 @@ export default function Explore() {
         console.log("property Data is ", propertyData);
         const tokenUri = await propertyData.propertyURI;
         console.log("token Uri is ", tokenUri);
-        const httpUri = getIPFSGatewayURL(tokenUri);
-        console.log("Http Uri is ", httpUri);
-        const meta = await axios.get(httpUri);
+
+        const meta = await axios.get(tokenUri);
 
         const item = {
           tokenId: i.id.toNumber(),
-          image: getIPFSGatewayURL(meta.data.image),
+          image: meta.data.image,
           name: meta.data.name,
           description: meta.data.description,
-          sharelink: getIPFSGatewayURL(meta.data.image),
-          pin: meta.data.properties.pin,
-          paddress: meta.data.properties.paddress,
-          ptype: meta.data.properties.ptype,
-          price: meta.data.properties.price,
-          totalfraction: meta.data.properties.totalfraction,
-          image2: getIPFSGatewayURL(meta.data.properties.image2),
-          //image3: getIPFSGatewayURL(meta.data.properties.image3),
+          sharelink: meta.data.image,
+          pin: meta.data.pin,
+          paddress: meta.data.paddress,
+          ptype: meta.data.ptype,
+          price: meta.data.price,
+          totalfraction: meta.data.totalfraction,
+          image2: meta.data.image2,
+          image3: meta.data.image3,
         };
         console.log("item returned is ", item);
 
@@ -76,19 +77,11 @@ export default function Explore() {
     setLoadingState("loaded");
   }
 
-  const getIPFSGatewayURL = ipfsURL => {
-    const urlArray = ipfsURL.split("/");
-    console.log("urlArray = ", urlArray);
-    const ipfsGateWayURL = `https://${urlArray[2]}.ipfs.nftstorage.link/${urlArray[3]}`;
-    console.log("ipfsGateWayURL = ", ipfsGateWayURL);
-    return ipfsGateWayURL;
-  };
-
   async function share(nft) {
     console.log("item id clicked is", nft.tokenId);
     const id = nft.tokenId;
 
-    router.push(`/details?id=${id}`);
+    router.push(`/buy`);
 
     console.log("Prop result without {} is ", { id });
   }
@@ -151,7 +144,15 @@ export default function Explore() {
                     onClick={() => share(nft)}
                     className="w-full bg-purple-700 text-white font-bold py-2 px-2 rounded"
                   >
-                    View Property
+                    Buy Property
+                  </button>
+                  <button
+                    data-value={nft}
+                    type="button"
+                    onClick={() => share(nft)}
+                    className="mt-2 w-full bg-purple-700 text-white font-bold py-2 px-2 rounded"
+                  >
+                    Rent Property
                   </button>
                 </div>
               </div>
