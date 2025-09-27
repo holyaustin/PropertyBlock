@@ -21,7 +21,7 @@ const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.17",
+    version: "0.8.30",
     settings: {
       optimizer: {
         enabled: true,
@@ -41,13 +41,21 @@ const config: HardhatUserConfig = {
     // View the networks that are pre-configured.
     // If the network you are looking for is not here you can add new network settings
 
-    linea_sepolia: {
-      url: `https://rpc.sepolia.linea.build`,
-      accounts: [deployerPrivateKey],
+   amoy: {
+      url: process.env.RPC_AMOY || "https://rpc-amoy.polygon.technology",
+      accounts: [process.env.PRIVATE_KEY as string],
     },
-    linea_mainnet: {
-      url: `https://rpc.sepolia.linea.build`,
-      accounts: [PRIVATE_KEY],
+    zkevm: {
+      url: process.env.RPC_ZKEVM || "https://rpc.public.zkevm-test.net",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    u2u: {
+      url: process.env.RPC_U2U || "https://neuron.u2u.net",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
+    fuji: {
+      url: process.env.RPC_FUJI || "https://api.avax-test.network/ext/bc/C/rpc",
+      accounts: [process.env.PRIVATE_KEY as string],
     },
   },
   // configuration for harhdat-verify plugin
