@@ -37,9 +37,10 @@ describe("Marketplace", function () {
     await marketplace.connect(seller).listProperty(0, ethers.parseEther("1"));
 
     // Buyer purchases property
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const sellerBalanceBefore = await ethers.provider.getBalance(seller.address);
     const treasuryBalanceBefore = await ethers.provider.getBalance(treasury.address);
-
+    console.log("Seller balance before:", sellerBalanceBefore.toString());
     await expect(
       marketplace.connect(buyer).buyProperty(0, { value: ethers.parseEther("1") })
     ).to.emit(marketplace, "PropertySold");

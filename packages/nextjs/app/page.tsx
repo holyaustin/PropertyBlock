@@ -1,11 +1,15 @@
 "use client";
-
+import PropertyCard from "../components/PropertyCard";
+import { useAllProperties } from "../hooks/useRegistry";
 import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
+    const props = useAllProperties();
+  const forSale = (props || []).filter((p:any) => Number(p.forSale ?? p[5] ?? 0) === 1 || p.forSale === true);
+
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
@@ -87,6 +91,21 @@ const Home: NextPage = () => {
             <Image className="w-full h-3/5 object-cover" alt="benefit" src="/benefit.png" width={1000} height={250} />
           </div>
         </div>
+
+        <div>
+                <aside className="bg-white p-4 rounded shadow">
+        <h3 className="font-semibold">Snapshot</h3>
+        <p className="text-sm text-gray-500 mt-2">Total properties: {props?.length ?? 0}</p>
+        <p className="text-sm text-gray-500">Verified: { (props || []).filter((p:any)=>p.verified || p[6]).length }</p>
+      </aside>
+        <section>
+          <h2 className="text-xl font-semibold mb-3">Latest Listings</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {forSale.length === 0 ? <div className="text-gray-500">No properties currently for sale</div> : forSale.slice(0,6).map((p:any, i:number) => <PropertyCard key={i} property={p} />)}
+          </div>
+        </section>
+
+        </div> 
 
         <div>
           <div className="relative w-full h-full overflow-hidden">

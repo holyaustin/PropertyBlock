@@ -11,6 +11,10 @@ const nextConfig = {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
   webpack: config => {
+    config.module.rules.push({
+      test: /HeartbeatWorker\.js$/,
+      type: "javascript/auto", // treat as raw JS, not ESM
+    });
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;

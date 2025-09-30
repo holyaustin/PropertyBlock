@@ -14,8 +14,8 @@ require("@nomicfoundation/hardhat-toolbox");
 const PRIVATE_KEY = process.env.PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 
 // If not set, it uses the hardhat account 0 private key.
-const deployerPrivateKey =
-  process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+//const deployerPrivateKey =
+//  process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 
@@ -43,15 +43,15 @@ const config: HardhatUserConfig = {
 
    amoy: {
       url: process.env.RPC_AMOY || "https://rpc-amoy.polygon.technology",
-      accounts: [process.env.PRIVATE_KEY as string],
+      accounts: [PRIVATE_KEY as string],
     },
     zkevm: {
       url: process.env.RPC_ZKEVM || "https://rpc.public.zkevm-test.net",
-      accounts: [process.env.PRIVATE_KEY as string],
+      accounts: [PRIVATE_KEY as string],
     },
     u2u: {
       url: process.env.RPC_U2U || "https://neuron.u2u.net",
-      accounts: [process.env.PRIVATE_KEY as string],
+      accounts: [PRIVATE_KEY as string],
     },
     fuji: {
       url: process.env.RPC_FUJI || "https://api.avax-test.network/ext/bc/C/rpc",
