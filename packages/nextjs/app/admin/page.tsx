@@ -1,4 +1,3 @@
-// packages/nextjs/app/admin/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -14,196 +13,225 @@ export default function AdminPage() {
   const [roleHex, setRoleHex] = useState("");
   const [feeBps, setFeeBps] = useState("");
 
-  async function fetchAdminRole(): Promise<string | undefined> {
+  async function fetchAdminRole() {
     try {
-      if (!publicClient) return undefined;
-      const role = await publicClient.readContract({
+      if (!publicClient) return;
+      return (await publicClient.readContract({
         address: CONTRACTS.PropertyRegistry.address as `0x${string}`,
-        abi: CONTRACTS.PropertyRegistry.abi as any,
+        abi: CONTRACTS.PropertyRegistry.abi,
         functionName: "ADMIN_ROLE",
-        args: [],
-      });
-      return role as string;
+        args: [], // ✅ required, even if empty
+      })) as string;
     } catch (e) {
-      console.error("Failed to read ADMIN_ROLE", e);
-      return undefined;
+      console.error("Failed to fetch ADMIN_ROLE", e);
     }
   }
 
   async function verifyProperty(flag: boolean) {
+    if (!walletClient) return alert("Connect wallet");
     try {
-      if (!walletClient) throw new Error("Connect wallet");
       await walletClient.writeContract({
         address: CONTRACTS.PropertyRegistry.address as `0x${string}`,
-        abi: CONTRACTS.PropertyRegistry.abi as any,
+        abi: CONTRACTS.PropertyRegistry.abi,
         functionName: "verifyProperty",
         args: [BigInt(propId), flag],
       });
       alert("verifyProperty tx sent");
     } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
+      alert(e?.message ?? e);
     }
   }
 
   async function grantRole() {
+    if (!walletClient) return alert("Connect wallet");
     try {
-      if (!walletClient) throw new Error("Connect wallet");
       const role = roleHex || (await fetchAdminRole());
-      if (!role) throw new Error("Cannot determine role");
+      if (!role) throw new Error("Role not resolved");
       await walletClient.writeContract({
         address: CONTRACTS.PropertyRegistry.address as `0x${string}`,
-        abi: CONTRACTS.PropertyRegistry.abi as any,
+        abi: CONTRACTS.PropertyRegistry.abi,
         functionName: "grantRole",
         args: [role, roleAddress],
       });
       alert("grantRole tx sent");
     } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
+      alert(e?.message ?? e);
     }
   }
 
   async function revokeRole() {
+    if (!walletClient) return alert("Connect wallet");
     try {
-      if (!walletClient) throw new Error("Connect wallet");
       const role = roleHex || (await fetchAdminRole());
-      if (!role) throw new Error("Cannot determine role");
+      if (!role) throw new Error("Role not resolved");
       await walletClient.writeContract({
         address: CONTRACTS.PropertyRegistry.address as `0x${string}`,
-        abi: CONTRACTS.PropertyRegistry.abi as any,
+        abi: CONTRACTS.PropertyRegistry.abi,
         functionName: "revokeRole",
         args: [role, roleAddress],
       });
       alert("revokeRole tx sent");
     } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
+      alert(e?.message ?? e);
     }
   }
 
   async function updateFee() {
+    if (!walletClient) return alert("Connect wallet");
     try {
-      if (!walletClient) throw new Error("Connect wallet");
       await walletClient.writeContract({
         address: CONTRACTS.Marketplace.address as `0x${string}`,
-        abi: CONTRACTS.Marketplace.abi as any,
+        abi: CONTRACTS.Marketplace.abi,
         functionName: "updateFee",
         args: [Number(feeBps)],
       });
       alert("updateFee tx sent");
     } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
+      alert(e?.message ?? e);
     }
   }
 
-  async function pauseRegistry() {
+  async function pauseRegistry(flag: boolean) {
     if (!walletClient) return alert("Connect wallet");
     try {
       await walletClient.writeContract({
         address: CONTRACTS.PropertyRegistry.address as `0x${string}`,
-        abi: CONTRACTS.PropertyRegistry.abi as any,
-        functionName: "pause",
-        args: [],
+        abi: CONTRACTS.PropertyRegistry.abi,
+        functionName: flag ? "pause" : "unpause",
+        args: [], // ✅ required
       });
-      alert("registry paused");
+      alert(`Registry ${flag ? "paused" : "unpaused"}`);
     } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
+      alert(e?.message ?? e);
     }
   }
 
-  async function unpauseRegistry() {
-    if (!walletClient) return alert("Connect wallet");
-    try {
-      await walletClient.writeContract({
-        address: CONTRACTS.PropertyRegistry.address as `0x${string}`,
-        abi: CONTRACTS.PropertyRegistry.abi as any,
-        functionName: "unpause",
-        args: [],
-      });
-      alert("registry unpaused");
-    } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
-    }
-  }
-
-  async function pauseMarketplace() {
+  async function pauseMarketplace(flag: boolean) {
     if (!walletClient) return alert("Connect wallet");
     try {
       await walletClient.writeContract({
         address: CONTRACTS.Marketplace.address as `0x${string}`,
-        abi: CONTRACTS.Marketplace.abi as any,
-        functionName: "pause",
-        args: [],
+        abi: CONTRACTS.Marketplace.abi,
+        functionName: flag ? "pause" : "unpause",
+        args: [], // ✅ required
       });
-      alert("marketplace paused");
+      alert(`Marketplace ${flag ? "paused" : "unpaused"}`);
     } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
-    }
-  }
-
-  async function unpauseMarketplace() {
-    if (!walletClient) return alert("Connect wallet");
-    try {
-      await walletClient.writeContract({
-        address: CONTRACTS.Marketplace.address as `0x${string}`,
-        abi: CONTRACTS.Marketplace.abi as any,
-        functionName: "unpause",
-        args: [],
-      });
-      alert("marketplace unpaused");
-    } catch (e: any) {
-      alert("Error: " + (e?.message ?? e));
+      alert(e?.message ?? e);
     }
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <h2 className="text-2xl font-semibold">Admin Console</h2>
 
+      {/* Verify Property */}
       <section className="bg-white p-4 rounded shadow">
         <h3 className="font-medium mb-2">Verify / Unverify Property</h3>
         <div className="flex gap-2">
-          <input placeholder="Property ID" value={propId} onChange={(e) => setPropId(e.target.value)} className="border p-2" />
-          <button onClick={() => verifyProperty(true)} className="px-3 py-2 bg-green-600 text-white rounded">Verify</button>
-          <button onClick={() => verifyProperty(false)} className="px-3 py-2 bg-red-600 text-white rounded">Unverify</button>
+          <input
+            placeholder="Property ID"
+            value={propId}
+            onChange={e => setPropId(e.target.value)}
+            className="border p-2"
+          />
+          <button
+            onClick={() => verifyProperty(true)}
+            className="px-3 py-2 bg-green-600 text-white rounded"
+          >
+            Verify
+          </button>
+          <button
+            onClick={() => verifyProperty(false)}
+            className="px-3 py-2 bg-red-600 text-white rounded"
+          >
+            Unverify
+          </button>
         </div>
       </section>
 
+      {/* Roles */}
       <section className="bg-white p-4 rounded shadow">
-        <h3 className="font-medium mb-2">Grant / Revoke Role (Admin Role)</h3>
+        <h3 className="font-medium mb-2">Grant / Revoke Admin Role</h3>
         <div className="flex gap-2 mb-2">
-          <input placeholder="Target address" value={roleAddress} onChange={(e) => setRoleAddress(e.target.value)} className="border p-2" />
-          <input placeholder="Role bytes32 (optional)" value={roleHex} onChange={(e) => setRoleHex(e.target.value)} className="border p-2" />
+          <input
+            placeholder="Target address"
+            value={roleAddress}
+            onChange={e => setRoleAddress(e.target.value)}
+            className="border p-2"
+          />
+          <input
+            placeholder="Role bytes32 (optional)"
+            value={roleHex}
+            onChange={e => setRoleHex(e.target.value)}
+            className="border p-2"
+          />
         </div>
         <div className="flex gap-2">
-          <button onClick={grantRole} className="px-3 py-2 bg-blue-600 text-white rounded">Grant</button>
-          <button onClick={revokeRole} className="px-3 py-2 bg-orange-600 text-white rounded">Revoke</button>
+          <button
+            onClick={grantRole}
+            className="px-3 py-2 bg-blue-600 text-white rounded"
+          >
+            Grant
+          </button>
+          <button
+            onClick={revokeRole}
+            className="px-3 py-2 bg-orange-600 text-white rounded"
+          >
+            Revoke
+          </button>
         </div>
       </section>
 
+      {/* Fee */}
       <section className="bg-white p-4 rounded shadow">
         <h3 className="font-medium mb-2">Update Marketplace Fee</h3>
         <div className="flex gap-2">
-          <input placeholder="Fee BPS (e.g. 50 = 0.5%)" value={feeBps} onChange={(e) => setFeeBps(e.target.value)} className="border p-2" />
-          <button onClick={updateFee} className="px-3 py-2 bg-indigo-600 text-white rounded">Update Fee</button>
+          <input
+            placeholder="Fee BPS (e.g. 50 = 0.5%)"
+            value={feeBps}
+            onChange={e => setFeeBps(e.target.value)}
+            className="border p-2"
+          />
+          <button
+            onClick={updateFee}
+            className="px-3 py-2 bg-indigo-600 text-white rounded"
+          >
+            Update Fee
+          </button>
         </div>
       </section>
 
+      {/* Pause / Unpause */}
       <section className="bg-white p-4 rounded shadow">
         <h3 className="font-medium mb-2">Pause / Unpause Contracts</h3>
-        <div className="flex gap-2">
-          <button onClick={pauseRegistry} className="px-3 py-2 bg-red-600 text-white rounded">Pause Registry</button>
-          <button onClick={unpauseRegistry} className="px-3 py-2 bg-green-600 text-white rounded">Unpause Registry</button>
-          <button onClick={pauseMarketplace} className="px-3 py-2 bg-red-600 text-white rounded">Pause Marketplace</button>
-          <button onClick={unpauseMarketplace} className="px-3 py-2 bg-green-600 text-white rounded">Unpause Marketplace</button>
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => pauseRegistry(true)}
+            className="px-3 py-2 bg-red-600 text-white rounded"
+          >
+            Pause Registry
+          </button>
+          <button
+            onClick={() => pauseRegistry(false)}
+            className="px-3 py-2 bg-green-600 text-white rounded"
+          >
+            Unpause Registry
+          </button>
+          <button
+            onClick={() => pauseMarketplace(true)}
+            className="px-3 py-2 bg-red-600 text-white rounded"
+          >
+            Pause Marketplace
+          </button>
+          <button
+            onClick={() => pauseMarketplace(false)}
+            className="px-3 py-2 bg-green-600 text-white rounded"
+          >
+            Unpause Marketplace
+          </button>
         </div>
       </section>
-
-      <div className="text-sm text-gray-500">
-        Notes:
-        <ul className="list-disc ml-5">
-          <li>Grant/Revoke expects a bytes32 role value; leave blank to use ADMIN_ROLE constant fetched from registry.</li>
-          <li>All actions require an admin wallet connected and to be admin on-chain.</li>
-        </ul>
-      </div>
     </div>
   );
 }

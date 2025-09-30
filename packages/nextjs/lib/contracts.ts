@@ -1,26 +1,39 @@
-// packages/nextjs/lib/contracts.ts
-import PropertyRegistryJson from "../contracts/PropertyRegistry.json";
-import MarketplaceJson from "../contracts/Marketplace.json";
-import PropertyTokenJson from "../contracts/PropertyToken.json";
-import RentalDistributorJson from "../contracts/RentalDistributor.json";
+import registryArtifact from "~~/contracts/PropertyRegistry.json";
+import marketplaceArtifact from "~~/contracts/Marketplace.json";
+import tokenArtifact from "~~/contracts/PropertyToken.json";
+import rentalArtifact from "~~/contracts/RentalDistributor.json";
 
-function abiFor(j: any) {
-  return j.abi ?? j;
-}
+// Load env vars (always strings)
+const REGISTRY_ADDR = process.env.NEXT_PUBLIC_PROPERTY_REGISTRY_ADDRESS as `0x${string}`;
+const MARKETPLACE_ADDR = process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS as `0x${string}`;
+const TOKEN_ADDR = process.env.NEXT_PUBLIC_PROPERTY_TOKEN_ADDRESS as `0x${string}`;
+const RENTAL_ADDR = process.env.NEXT_PUBLIC_RENTAL_DISTRIBUTOR_ADDRESS as `0x${string}`;
 
-export const CONTRACTS = {
+// Shared type
+export type ContractConfig = {
+  address: `0x${string}`;
+  abi: any;
+};
+
+// Consistent export object
+export const CONTRACTS: Record<
+  "PropertyRegistry" | "Marketplace" | "PropertyToken" | "RentalDistributor",
+  ContractConfig
+> = {
   PropertyRegistry: {
-    address: process.env.NEXT_PUBLIC_REGISTRY_ADDRESS ?? "",
-    abi: abiFor(PropertyRegistryJson),
+    address: REGISTRY_ADDR,
+    abi: registryArtifact.abi,
   },
   Marketplace: {
-    address: process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS ?? "",
-    abi: abiFor(MarketplaceJson),
+    address: MARKETPLACE_ADDR,
+    abi: marketplaceArtifact.abi,
   },
   PropertyToken: {
-    abi: abiFor(PropertyTokenJson),
+    address: TOKEN_ADDR,
+    abi: tokenArtifact.abi,
   },
   RentalDistributor: {
-    abi: abiFor(RentalDistributorJson),
+    address: RENTAL_ADDR,
+    abi: rentalArtifact.abi,
   },
 };
